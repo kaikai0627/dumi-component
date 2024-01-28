@@ -1,0 +1,36 @@
+{
+  "name": "kform",
+  "version": "0.1.0",
+  "description": "> TODO: description",
+  "author": "kaikai0627 <kaikai627@yeah.net>",
+  "homepage": "https://github.com/kaikai0627/dumi-component#readme",
+  "license": "ISC",
+  "main": "lib/KForm.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmmirror.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaikai0627/dumi-component.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/KForm.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/kaikai0627/dumi-component/issues"
+  },
+  "dependencies": {
+    "@formily/antd": "^2.3.1",
+    "@formily/core": "^2.3.1",
+    "@formily/react": "^2.3.1",
+    "antd": "^4.23.6",
+    "moment": "^2.30.1"
+  }
+}

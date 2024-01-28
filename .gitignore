@@ -24,3 +24,7 @@
 # ide
 /.vscode
 /.idea
+
+packages/*/node_modules
+packages/*/lib
+packages/*/__tests__
