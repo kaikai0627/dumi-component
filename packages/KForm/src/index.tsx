@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createForm, onFormInitialValuesChange, onFormSubmitSuccess, Field } from '@formily/core';
-import { FormProvider, createSchemaField } from '@formily/react';
+import { FormProvider, createSchemaField, ISchema } from '@formily/react';
 import { Input, Select, FormItem } from '@formily/antd';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
@@ -32,6 +32,52 @@ const options = [
     name: '张三',
   },
 ];
+
+const schemaForm: ISchema = {
+  type: 'object',
+  properties: {
+    input: {
+      title: '标题',
+      type: 'string',
+      'x-decorator': 'FormItem',
+      'x-component': 'Input',
+      'x-validator': {
+        required: true,
+        message: ['必须包含{积分数量}或{积分}以及{过期日期}或日期'],
+        pattern: '(\\{日期\\}|\\{过期日期\\}).*(\\{积分\\}|\\{积分数量\\})',
+      },
+    },
+    select: {
+      title: '自动选择第一项',
+      type: 'string',
+      'x-decorator': 'FormItem',
+      'x-component': 'Select',
+      'x-validator': {
+        required: true,
+      },
+      'x-component-props': {
+        style: {
+          width: '100%',
+        },
+        fieldNames: {
+          label: 'name',
+          value: 'id',
+        },
+      },
+      enum: 'options',
+      'x-reactions': [
+        {
+          fulfill: {
+            schema: {
+              'x-value': '{{$self.dataSource[0]?.id}}',
+            },
+          },
+        },
+        '{{getOptions}}',
+      ],
+    },
+  },
+};
 const KFrom = ({ schema }: any) => {
   useEffect(() => {
     console.log('schema', schema);
@@ -45,7 +91,7 @@ const KFrom = ({ schema }: any) => {
   return (
     <>
       <FormProvider form={form}>
-        <SchemaField scope={{ getOptions }} schema={schema}></SchemaField>
+        <SchemaField scope={{ getOptions }} schema={schema || schemaForm}></SchemaField>
       </FormProvider>
       <Button
         onClick={() => {
@@ -59,48 +105,3 @@ const KFrom = ({ schema }: any) => {
 };
 
 export default KFrom;
-
-// {
-//   "type": "object",
-//   "properties": {
-//     "input": {
-//       "title": "标题",
-//       "type": "string",
-//       "x-decorator": "FormItem",
-//       "x-component": "Input",
-//       "x-validator": {
-//         "required": true,
-//         "message": "请输入白标题"
-//       }
-//     },
-//     "select": {
-//       "title": "自动选择第一项",
-//       "type": "string",
-//       "x-decorator": "FormItem",
-//       "x-component": "Select",
-//       "x-validator": {
-//         "required": true
-//       },
-//       "x-component-props": {
-//         "style": {
-//           "width": "100%"
-//         },
-//         "fieldNames": {
-//           "label": "name",
-//           "value": "id"
-//         }
-//       },
-//       "enum": "options",
-//       "x-reactions": [
-//         {
-//           "fulfill": {
-//             "schema": {
-//               "x-value": "{{$self.dataSource[0]?.id}}"
-//             }
-//           }
-//         },
-//         "{{getOptions}}"
-//       ]
-//     }
-//   }
-// }
